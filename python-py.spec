@@ -15,7 +15,8 @@ Group:		Development/Languages/Python
 Source0:	http://codespeak.net/download/py/%{module}-%{version}.tar.gz
 # Source0-md5:	adecd7befdfa431341c8e09e0bc94ca3
 URL:		http://codespeak.net/py/
-BuildRequires:	python-devel
+BuildRequires:	FHS-fix(arch-dependent files in /usr/share)
+BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,3 +51,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/*
 %{py_sitescriptdir}/py
+%{py_sitescriptdir}/py-*.egg-info
