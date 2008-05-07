@@ -5,34 +5,39 @@
 # - documentation and examples in sitescript_dir
 %define		module	py
 #
-Summary:	agile development and test support library
-Summary(pl.UTF-8):	zwinna biblioteka obsługująca rozwój i testowanie
+Summary:	Agile development and test support library
+Summary(pl.UTF-8):	Zwinna biblioteka obsługująca rozwój i testowanie
 Name:		python-%{module}
 Version:	0.9.0
 Release:	0.1
 License:	MIT license
 Group:		Development/Languages/Python
-Source0:	http://codespeak.net/download/%{module}/%{module}-%{version}.tar.gz
+Source0:	http://codespeak.net/download/py/%{module}-%{version}.tar.gz
 # Source0-md5:	adecd7befdfa431341c8e09e0bc94ca3
 URL:		http://codespeak.net/py/
 BuildRequires:	python-devel
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-the py lib is a development support library featuring py.test, ad-hoc
+The py lib is a development support library featuring py.test, ad-hoc
 distributed execution, micro-threads and svn abstractions.
+
+%description -l pl.UTF-8
+Biblioteka py wspiera rozwijanie oprogramowania udostępniając py.test,
+rozproszone wykonywanie kodu, mikrowątki i abstrakcję svn.
 
 %prep
 %setup -q -n %{module}-%{version}
 
 %build
-python setup.py build
+%{__python} setup.py build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-python setup.py install \
+%{__python} setup.py install \
 	--root=$RPM_BUILD_ROOT \
 	--optimize=2
 
