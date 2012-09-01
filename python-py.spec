@@ -1,39 +1,57 @@
 #
-# TODO:
-# - cleanup ;)
-# - some arch-depended libraries in sitescript_dir
-# - documentation and examples in sitescript_dir
+# Conditional build:
+%bcond_without	doc	# HTML documentation build
+#
 %define		module	py
 #
-Summary:	Agile development and test support library
-Summary(pl.UTF-8):	Zwinna biblioteka obsługująca rozwój i testowanie
+Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
+Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	0.9.0
-Release:	0.1
-License:	MIT license
+Version:	1.4.9
+Release:	1
+License:	MIT
 Group:		Development/Languages/Python
-Source0:	http://codespeak.net/download/py/%{module}-%{version}.tar.gz
-# Source0-md5:	adecd7befdfa431341c8e09e0bc94ca3
-URL:		http://codespeak.net/py/
-BuildRequires:	FHS-fix(arch-dependent files in /usr/share)
+Source0:	http://pypi.python.org/packages/source/p/py/%{module}-%{version}.zip
+# Source0-md5:	471a88edcdae2f9689c0193972a1a1f8
+Source1:	http://docs.python.org/objects.inv#/python-objects.inv
+# Source1-md5:	9128e774ec21dcd62dc5bca61cdd91ee
+Patch0:		%{name}-offline.patch
+URL:		http://pylib.org/
 BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
+%{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-The py lib is a development support library featuring py.test, ad-hoc
-distributed execution, micro-threads and svn abstractions.
+The py lib is a Python development support library featuring the
+following tools and modules:
+ - py.path:  uniform local and svn path objects
+ - py.apipkg:  explicit API control and lazy-importing
+ - py.iniconfig:  easy parsing of .ini files
+ - py.code: dynamic code generation and introspection
 
 %description -l pl.UTF-8
-Biblioteka py wspiera rozwijanie oprogramowania udostępniając py.test,
-rozproszone wykonywanie kodu, mikrowątki i abstrakcję svn.
+Biblioteka py to biblioteka wpierająca tworzenie oprogramowania w
+Pythonie. Zawiera następujące narzędzia i moduły:
+ - py.path - jednolite obiekty ścieżek lokalnych i svn
+ - py.apipkg - bezpośrednia kontrola API i leniwego importowania
+ - py.iniconfig - łatwa analiza plików .ini
+ - py.code - dynamiczne generowanie kodu i introspekcji
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
+
+cp -p %{SOURCE1} doc
 
 %build
 %{__python} setup.py build
+
+%if %{with doc}
+PYTHONPATH=$(pwd) \
+%{__make} -C doc html
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -49,6 +67,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%doc CHANGELOG LICENSE README.txt %{?with_doc:doc/_build/html}
 %{py_sitescriptdir}/py
-%{py_sitescriptdir}/py-*.egg-info
+%{py_sitescriptdir}/py-%{version}-py*.egg-info
