@@ -47,8 +47,8 @@ Pythonie. Zawiera następujące narzędzia i moduły:
 
 %package -n python3-py
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
+Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Group:		Development/Languages/Python
-Requires:	python3-setuptools
 
 %description -n python3-py
 The py lib is a Python development support library featuring the
@@ -57,18 +57,18 @@ following tools and modules:
 - py.apipkg: explicit API control and lazy-importing
 - py.iniconfig: easy parsing of .ini files
 - py.code: dynamic code generation and introspection
-- py.path: uniform local and svn path objects
+
+%description -n python3-py -l pl.UTF-8
+Biblioteka py to biblioteka wpierająca tworzenie oprogramowania w
+Pythonie. Zawiera następujące narzędzia i moduły:
+ - py.path - jednolite obiekty ścieżek lokalnych i svn
+ - py.apipkg - bezpośrednia kontrola API i leniwego importowania
+ - py.iniconfig - łatwa analiza plików .ini
+ - py.code - dynamiczne generowanie kodu i introspekcji
 
 %prep
 %setup -q -n %{module}-%{version}
 %patch0 -p1
-
-%if %{with python3a}
-rm -rf build-3
-set -- *
-install -d build-3
-cp -a "$@" build-3
-%endif
 
 cp -p %{SOURCE1} doc
 
