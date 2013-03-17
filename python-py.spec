@@ -21,6 +21,7 @@ BuildRequires:	python-devel >= 1:2.5
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 %{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
+%{?with_doc:BuildRequires:	python-devel-tools}
 %if %{with python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-modules
