@@ -1,32 +1,36 @@
 #
 # Conditional build:
 %bcond_without	doc	# HTML documentation build
+%bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
 %define		module	py
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	1.4.22
-Release:	2
+Version:	1.4.26
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 Source0:	https://pypi.python.org/packages/source/p/py/py-%{version}.tar.gz
-# Source0-md5:	1af93ed9a00bc38385142ae0eb7cf3ff
+# Source0-md5:	30c3fd92a53f1a5ed6f3591c1fe75c0e
 Source1:	http://docs.python.org/objects.inv?/python-objects.inv
 # Source1-md5:	3d3c0b594b2e91d559418c107d973633
 Patch0:		%{name}-offline.patch
 URL:		http://pylib.org/
+%if %{with python2}
 BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-distribute
+%endif
+%if %{with python3}
+BuildRequires:	python3-devel >= 1:3.2
+BuildRequires:	python3-modules >= 1:3.2
+BuildRequires:	python3-distribute
+%endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 %{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
 %{?with_doc:BuildRequires:	python-devel-tools}
-%if %{with python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-modules
-BuildRequires:	python3-distribute
-%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -73,11 +77,14 @@ Pythonie. Zawiera następujące narzędzia i moduły:
 cp -p %{SOURCE1} doc
 
 %build
-%{__python} setup.py build
+%if %{with python2}
+%{__python} setup.py build \
+	--build-base build-2
+%endif
 
 %if %{with python3}
-%{__python3} setup.py \
-	build -b build-3
+%{__python3} setup.py build \
+	--build-base build-3
 %endif
 
 %if %{with doc}
@@ -87,15 +94,20 @@ PYTHONPATH=$(pwd) \
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python} setup.py install \
+
+%if %{with python2}
+%{__python} setup.py \
+	build --build-base build-2 \
+	install \
 	--root=$RPM_BUILD_ROOT \
 	--optimize=2
 
 %py_postclean
+%endif
 
 %if %{with python3}
 %{__python3} -- setup.py \
-	build -b build-3 \
+	build --build-base build-3 \
 	install \
 	--root=$RPM_BUILD_ROOT \
 	--optimize=2
@@ -106,11 +118,13 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if %{with python2}
 %files
 %defattr(644,root,root,755)
 %doc CHANGELOG LICENSE README.txt %{?with_doc:doc/_build/html}
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%endif
 
 %if %{with python3}
 %files -n python3-py
