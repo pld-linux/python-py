@@ -9,7 +9,7 @@ Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
 Version:	1.4.28
-Release:	2
+Release:	3
 License:	MIT
 Group:		Development/Languages/Python
 Source0:	https://pypi.python.org/packages/source/p/py/py-%{version}.tar.gz
