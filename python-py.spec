@@ -28,7 +28,7 @@ BuildRequires:	python3-modules >= 1:3.2
 BuildRequires:	python3-setuptools >= 7.0
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.710
 %{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
 %{?with_doc:BuildRequires:	python-devel-tools}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
