@@ -78,13 +78,11 @@ cp -p %{SOURCE1} doc
 
 %build
 %if %{with python2}
-%py_build \
-	--build-base build-2
+%py_build
 %endif
 
 %if %{with python3}
-%py3_build \
-	--build-base build-3
+%py3_build
 %endif
 
 %if %{with doc}
@@ -102,13 +100,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with python3}
-%{__python3} -- setup.py \
-	build --build-base build-3 \
-	install \
-	--root=$RPM_BUILD_ROOT \
-	--optimize=2
-
-%{__rm} $RPM_BUILD_ROOT%{py3_sitescriptdir}/py/test.py
+%py3_install
 %endif
 
 %clean
