@@ -12,6 +12,7 @@ Version:	1.4.31
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
+#Source0Download: https://pypi.python.org/pypi/py
 Source0:	https://pypi.python.org/packages/source/p/py/py-%{version}.tar.gz
 # Source0-md5:	5d2c63c56dc3f2115ec35c066ecd582b
 Source1:	http://docs.python.org/objects.inv?/python-objects.inv
