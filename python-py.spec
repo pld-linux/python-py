@@ -8,13 +8,13 @@
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	1.4.31
-Release:	2
+Version:	1.4.32
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
-#Source0Download: https://pypi.python.org/pypi/py
-Source0:	https://pypi.python.org/packages/source/p/py/py-%{version}.tar.gz
-# Source0-md5:	5d2c63c56dc3f2115ec35c066ecd582b
+#Source0Download: https://pypi.python.org/simple/py
+Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.gz
+# Source0-md5:	68ee0b5867282595d0b410a7f3c03ab3
 Source1:	http://docs.python.org/objects.inv?/python-objects.inv
 # Source1-md5:	3d3c0b594b2e91d559418c107d973633
 Patch0:		%{name}-offline.patch
@@ -71,6 +71,17 @@ Pythonie. Zawiera następujące narzędzia i moduły:
  - py.iniconfig - łatwa analiza plików .ini
  - py.code - dynamiczne generowanie kodu i introspekcji
 
+%package apidocs
+Summary:	Documentation for Python py library
+Summary(pl.UTF-8):	Dokumentacja do biblioteki Pythona py
+Group:		Documentation
+
+%description apidocs
+Documentation for Python py library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja do biblioteki Pythona py.
+
 %prep
 %setup -q -n %{module}-%{version}
 %patch0 -p1
@@ -110,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE README.txt %{?with_doc:doc/_build/html}
+%doc AUTHORS CHANGELOG LICENSE README.rst
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
 %endif
@@ -118,7 +129,13 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-py
 %defattr(644,root,root,755)
-%doc CHANGELOG LICENSE README.txt %{?with_doc:doc/_build/html}
+%doc AUTHORS CHANGELOG LICENSE README.rst
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
+%endif
+
+%if %{with doc}
+%files apidocs
+%defattr(644,root,root,755)
+%doc doc/_build/html/{_modules,_static,announce,*.html,*.js}
 %endif
