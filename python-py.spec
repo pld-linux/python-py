@@ -3,30 +3,45 @@
 %bcond_without	doc	# HTML documentation build
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
+%bcond_with	tests	# unit tests [fail with pytest 3.0?]
 
 %define		module	py
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	1.4.32
-Release:	2
+Version:	1.5.4
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
-#Source0Download: https://pypi.python.org/simple/py
+#Source0Download: https://pypi.org/simple/py/
 Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.gz
-# Source0-md5:	68ee0b5867282595d0b410a7f3c03ab3
+# Source0-md5:	7502d66fa68ea4ae5b61c511cd177d6a
 Source1:	http://docs.python.org/objects.inv?/python-objects.inv
 # Source1-md5:	3d3c0b594b2e91d559418c107d973633
 Patch0:		%{name}-offline.patch
-URL:		https://pypi.python.org/pypi/py
+URL:		https://pypi.org/project/py/
 %if %{with python2}
-BuildRequires:	python-devel >= 1:2.5
+BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-setuptools_scm
+%if %{with tests}
+%if %(locale -a | grep -q '^C\.utf8$'; echo $?)
+BuildRequires:	glibc-localedb-all
+%endif
+BuildRequires:	python-pytest >= 2.9.0
+%endif
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel >= 1:3.2
-BuildRequires:	python3-modules >= 1:3.2
+BuildRequires:	python3-devel >= 1:3.4
+BuildRequires:	python3-modules >= 1:3.4
 BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools_scm
+%if %{with tests}
+%if %(locale -a | grep -q '^C\.utf8$'; echo $?)
+BuildRequires:	glibc-localedb-all
+%endif
+BuildRequires:	python3-pytest >= 2.9.0
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
@@ -91,10 +106,20 @@ cp -p %{SOURCE1} doc
 %build
 %if %{with python2}
 %py_build
+
+%if %{with tests}
+LC_ALL=C.UTF-8 \
+%{__python} -m pytest testing
+%endif
 %endif
 
 %if %{with python3}
 %py3_build
+
+%if %{with tests}
+LC_ALL=C.UTF-8 \
+%{__python3} -m pytest testing
+%endif
 %endif
 
 %if %{with doc}
