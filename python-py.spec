@@ -10,7 +10,7 @@ Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
 Version:	1.7.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/py/
