@@ -1,8 +1,0 @@
---- py-1.4.9/doc/conf.py.orig	2012-06-13 15:40:52.000000000 +0200
-+++ py-1.4.9/doc/conf.py	2012-09-01 09:00:42.273985091 +0200
-@@ -260,4 +260,4 @@
- 
- 
- # Example configuration for intersphinx: refer to the Python standard library.
--intersphinx_mapping = {'http://docs.python.org/': None}
-+intersphinx_mapping = {'http://docs.python.org/': 'python-objects.inv'}
