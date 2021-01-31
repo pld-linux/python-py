@@ -9,13 +9,13 @@
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	1.9.0
+Version:	1.10.0
 Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/py/
 Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.gz
-# Source0-md5:	b80db4e61eef724f49feb4d20b649e62
+# Source0-md5:	5f108bfe00d5468cbdb8071051f86a55
 URL:		https://pypi.org/project/py/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
@@ -140,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python2}
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGELOG LICENSE README.rst
+%doc AUTHORS CHANGELOG.rst LICENSE README.rst
 %{py_sitescriptdir}/%{module}
 %{py_sitescriptdir}/%{module}-%{version}-py*.egg-info
 %endif
@@ -148,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 %files -n python3-py
 %defattr(644,root,root,755)
-%doc AUTHORS CHANGELOG LICENSE README.rst
+%doc AUTHORS CHANGELOG.rst LICENSE README.rst
 %{py3_sitescriptdir}/%{module}
 %{py3_sitescriptdir}/%{module}-%{version}-py*.egg-info
 %endif
