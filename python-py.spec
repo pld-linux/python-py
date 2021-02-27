@@ -44,6 +44,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.710
 %{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
 %{?with_doc:BuildRequires:	python-devel-tools}
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
