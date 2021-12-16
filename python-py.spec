@@ -19,7 +19,7 @@ Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.g
 URL:		https://pypi.org/project/py/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
-BuildRequires:	python-setuptools >= 7.0
+BuildRequires:	python-setuptools >= 1:7.0
 BuildRequires:	python-setuptools_scm
 %if %{with tests}
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
@@ -31,7 +31,7 @@ BuildRequires:	python-pytest >= 2.9.0
 %if %{with python3}
 BuildRequires:	python3-devel >= 1:3.4
 BuildRequires:	python3-modules >= 1:3.4
-BuildRequires:	python3-setuptools >= 7.0
+BuildRequires:	python3-setuptools >= 1:7.0
 BuildRequires:	python3-setuptools_scm
 %if %{with tests}
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
