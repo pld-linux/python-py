@@ -9,13 +9,14 @@
 Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
-Version:	1.10.0
-Release:	3
+Version:	1.11.0
+Release:	1
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/py/
 Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.gz
-# Source0-md5:	5f108bfe00d5468cbdb8071051f86a55
+# Source0-md5:	bde7dcc1cb452a1e10206ef2f811ba88
+Patch0:		%{name}-pytest4.patch
 URL:		https://pypi.org/project/py/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
@@ -25,6 +26,7 @@ BuildRequires:	python-setuptools_scm
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
+BuildRequires:	python-attrs
 BuildRequires:	python-pytest >= 2.9.0
 %endif
 %endif
@@ -37,11 +39,12 @@ BuildRequires:	python3-setuptools_scm
 %if %(locale -a | grep -q '^C\.utf8$'; echo $?)
 BuildRequires:	glibc-localedb-all
 %endif
+BuildRequires:	python3-attrs
 BuildRequires:	python3-pytest >= 2.9.0
 %endif
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.710
+BuildRequires:	rpmbuild(macros) >= 1.714
 %{?with_doc:BuildRequires:	sphinx-pdg >= 1.0}
 %{?with_doc:BuildRequires:	python-devel-tools}
 BuildArch:	noarch
@@ -97,6 +100,7 @@ Dokumentacja do biblioteki Pythona py.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
@@ -104,6 +108,7 @@ Dokumentacja do biblioteki Pythona py.
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python} -m pytest testing
 %endif
 %endif
@@ -113,6 +118,7 @@ LC_ALL=C.UTF-8 \
 
 %if %{with tests}
 LC_ALL=C.UTF-8 \
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 %{__python3} -m pytest testing
 %endif
 %endif
