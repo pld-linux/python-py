@@ -10,13 +10,14 @@ Summary:	Library with cross-python path, ini-parsing, io, code, log facilities
 Summary(pl.UTF-8):	Biblioteka wspierająca obsługę ścieżek, ini, we/wy, kodowania i logowania w wielu Pythonach
 Name:		python-%{module}
 Version:	1.11.0
-Release:	5
+Release:	6
 License:	MIT
 Group:		Development/Languages/Python
 #Source0Download: https://pypi.org/simple/py/
 Source0:	https://files.pythonhosted.org/packages/source/p/py/py-%{version}.tar.gz
 # Source0-md5:	bde7dcc1cb452a1e10206ef2f811ba88
 Patch0:		%{name}-pytest4.patch
+Patch1:		intersphinx.patch
 URL:		https://pypi.org/project/py/
 %if %{with python2}
 BuildRequires:	python-devel >= 1:2.7
@@ -101,6 +102,7 @@ Dokumentacja do biblioteki Pythona py.
 %prep
 %setup -q -n %{module}-%{version}
 %patch -P 0 -p1
+%patch -P 1 -p1
 
 %build
 %if %{with python2}

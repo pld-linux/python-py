@@ -1,0 +1,8 @@
+--- py-1.11.0/doc/conf.py~	2021-11-04 18:16:48.000000000 +0100
++++ py-1.11.0/doc/conf.py	2025-03-14 13:45:37.913319448 +0100
+@@ -260,4 +260,4 @@
+ 
+ 
+ # Example configuration for intersphinx: refer to the Python standard library.
+-intersphinx_mapping = {'http://docs.python.org/': None}
++#intersphinx_mapping = {'http://docs.python.org/': None}
